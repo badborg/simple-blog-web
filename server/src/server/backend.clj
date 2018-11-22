@@ -16,7 +16,8 @@
 
 (defn backend-path
   [path]
-  (str backend-url path))
+  (some-> backend-url
+          (str path)))
 
 (defn response
   [res]
@@ -47,6 +48,16 @@
   [post]
   (assoc post :url (permalink/post post)))
 
+(defn album->images
+  [{:keys [image_url album_num album_url] :as post}]
+  (-> post
+      (assoc :images
+             (album/album->images image_url
+                                  album_url
+                                  album_num))
+      (dissoc :album_num
+              :album_url)))
+
 (defn sanitized-post-response
   [res]
   (let [{:keys [status body] :as res} (response res)
@@ -56,6 +67,7 @@
                         (-> post
                             (update :content sanitize)
                             (update :tags sanitize-tags)
+                            album->images
                             add-post-url
                             (dissoc :slug
                                     :date
@@ -64,20 +76,6 @@
     (cond-> res
       (success? status) (-> (update :body json/parse-string true)
                             (update-in [:body :post] sanitize-post)))))
-
-(defn album->images
-  [res]
-  (let [{:keys [status body] :as res} (response res)
-        {:keys [image_url album_num album_url]} (:post body)]
-    (cond-> res
-      (success? status) (-> (assoc-in [:body :post :images]
-                                      (album/album->images image_url
-                                                           album_url
-                                                           album_num))
-                            (update-in [:body :post]
-                                       dissoc
-                                       :album_num
-                                       :album_url)))))
 
 (defn sanitize-posts
   [posts]
@@ -117,7 +115,6 @@
   (let [id (:id params)]
     (-> @(http/get (backend-path (str "/posts/" id)))
         sanitized-post-response
-        album->images
         response)))
 
 (defn related-posts
