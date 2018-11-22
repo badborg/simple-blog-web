@@ -4,7 +4,6 @@
                  [org.clojure/clojurescript "1.10.339"]
                  [org.clojure/core.async "0.4.474"]
                  [cljs-ajax "0.7.4"]
-                 ;; [com.cognitect/transit-clj "0.8.313"]
                  [rum "0.11.2"]]
   :plugins [[lein-cljsbuild "1.1.7"]]
   :cljsbuild {:builds [{:source-paths ["src"]
