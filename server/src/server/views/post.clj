@@ -27,9 +27,9 @@
   [id posts]
   [:div.related
    (posts/posts-list posts
-                     #(ads/insert-at (-> (ads/insert-ad-pos (count %)
-                                                            id)
-                                         (max 2))
+                     #(ads/insert-at (some-> (ads/insert-ad-pos (count %)
+                                                                id)
+                                             (max 2))
                                      (ads/ad2)
                                      %))
    [:div#more-related.posts
