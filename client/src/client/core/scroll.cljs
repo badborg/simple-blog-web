@@ -24,6 +24,22 @@
                     (some-> body .-scrollHeight non-zero))]
     (>= offset height)))
 
+(defn scrolled-to?
+  [el]
+  (when el
+    (let [rect (.getBoundingClientRect el)
+          doc (.-documentElement js/document)
+          win-height (or (some-> js/window .-innerHeight)
+                         (some-> doc .-clientHeight))
+          win-width (or (some-> js/window .-innerWidth)
+                        (some-> doc .-clientWidth))]
+      (and (and (<= (.-top rect) win-height)
+                (>= (+ (.-top rect) (.-height rect))
+                    0))
+           (and (<= (.-left rect) win-width)
+                (>= (+ (.-left rect) (.-width rect))
+                    0))))))
+
 (defn on-scrolled-bottom
   [callback]
   (let [done? (atom false)]

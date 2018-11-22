@@ -3,6 +3,7 @@
             [clojure.string :as s]
             [clojure.core.async :refer [>! <! go go-loop chan timeout]]
             [client.core.api :as api]
+            [client.core.scroll :refer [scrolled-to?]]
             [client.core.state :as cstate]))
 
 (defn related-posts
@@ -45,22 +46,6 @@
         (>! out updated-data)
         (recur updated-data)))
     out))
-
-(defn scrolled-to?
-  [el]
-  (when el
-    (let [rect (.getBoundingClientRect el)
-          doc (.-documentElement js/document)
-          win-height (or (some-> js/window .-innerHeight)
-                         (some-> doc .-clientHeight))
-          win-width (or (some-> js/window .-innerWidth)
-                        (some-> doc .-clientWidth))]
-      (and (and (<= (.-top rect) win-height)
-                (>= (+ (.-top rect) (.-height rect))
-                    0))
-           (and (<= (.-left rect) win-width)
-                (>= (+ (.-left rect) (.-width rect))
-                    0))))))
 
 (defn events
   [el id]
