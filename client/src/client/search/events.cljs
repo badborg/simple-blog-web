@@ -46,5 +46,7 @@
                 search-posts
                 results)]
     (cstate/sync-search out state)
+    (add-watch state :results-watcher
+               #(.scrollTo js/window 0 0))
     {:state state
      :set-search #(go (>! in %))}))
