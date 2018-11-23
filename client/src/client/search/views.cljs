@@ -45,7 +45,7 @@
   (unescapeEntities "&ctdot;"))
 
 (def close-sym
-  (unescapeEntities "&Cross;"))
+  (unescapeEntities "&times;"))
 
 (rum/defc main-results < rum/reactive
   [{:keys [state set-search]}]
