@@ -59,7 +59,7 @@
          close-sym])
       (when posts?
         (map post-item posts))
-      (when more?
+      (when posts?
         [:a.more {:href (str "/?s=" search)}
          more-sym]))))
 
