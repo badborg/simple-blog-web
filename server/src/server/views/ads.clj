@@ -31,9 +31,7 @@
 
 (def notice
   [:div.notice
-   "&ltcc;"
-   ;; "&boxbox;"
-   ])
+   "&ltcc;"])
 
 (defn ad1
   []
