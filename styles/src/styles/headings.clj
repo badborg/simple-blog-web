@@ -1,4 +1,4 @@
-g(ns styles.headings
+(ns styles.headings
   (:require [garden.def :refer [defstyles]]
             [garden.stylesheet :refer [at-media]]
             [styles.colors :as colors]
