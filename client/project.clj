@@ -8,8 +8,8 @@
   :plugins [[lein-cljsbuild "1.1.7"]]
   :cljsbuild {:builds [{:source-paths ["src"]
                         :compiler {:output-dir "../server/resources/js"
-                                   :optimizations :simple
-                                   ;; :optiomizations :advanced
-                                   ;; :pretty-print false
+                                   ;; :optimizations :simple
+                                   :optimizations :advanced
+                                   :pretty-print false
                                    :modules {:cljs-base
                                              {:output-to "../server/resources/public/js/core.js"}}}}]})
