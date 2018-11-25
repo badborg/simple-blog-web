@@ -21,10 +21,11 @@
 (defstyles group1
   [:#ad1 :#ad3
    {:min-width (px min-width)
-    :min-height (px min-height)}]
+    :min-height (px min-height)
+    :padding-top (px pad)
+    :padding-bottom (px pad)}]
   [:#ad2
    {:float "left"
-    ;; :min-width (px min-width)
     :height (px height)
     :padding-top (px pad)
     :margin-top (em margin)
@@ -37,8 +38,6 @@
 (defstyles group2
   [:#ad4 :#ad5
    {:float "left"
-    ;; :width (% 50)
-    :min-width (px min-width)
     :height (px height)
     :padding-top (px pad)
     :margin-top (em margin)
