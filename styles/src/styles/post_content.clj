@@ -36,7 +36,6 @@
     :letter-spacing 0
     :line-height 2.6
     :text-align "left"
-    ;; :margin "0 auto"
     :margin-top 0
     :margin-bottom 0
     :margin-left "auto"
