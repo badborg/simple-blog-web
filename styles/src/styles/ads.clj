@@ -11,8 +11,6 @@
 
 (def pad 40)
 
-;; (def z-index 2)
-
 (def height
   (-> (* 2 posts/post-height)
       (- pad)))
@@ -23,24 +21,16 @@
 (defstyles group1
   [:#ad1 :#ad3
    {:min-width (px min-width)
-    :min-height (px min-height)
-    ;; :z-index z-index
-    ;; :overflow "hidden"
-    }]
+    :min-height (px min-height)}]
   [:#ad2
    {:float "left"
     ;; :min-width (px min-width)
-    ;; :min-height (px height)
     :height (px height)
     :padding-top (px pad)
-    ;; :margin "0.4em auto"
     :margin-top (em margin)
     :margin-bottom (em margin)
     :margin-left "auto"
-    :margin-right "auto"
-    ;; :z-index z-index
-    ;; :overflow "hidden"
-    }
+    :margin-right "auto"}
    ]
   (build-media (sideables/media-ranges [:#ad2])))
 
@@ -54,10 +44,7 @@
     :margin-top (em margin)
     :margin-bottom (em margin)
     :margin-left "auto"
-    :margin-right "auto"
-    ;; :z-index z-index
-    ;; :overflow "hidden"
-    }]
+    :margin-right "auto"}]
   (build-media (wallables/media-ranges [:#ad4 :#ad5])))
 
 (defstyles main
