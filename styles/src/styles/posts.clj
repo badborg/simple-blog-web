@@ -6,8 +6,6 @@
             [styles.helpers :refer [px % em build-media]]
             [styles.wallables :as wallables]))
 
-;; (def post-min-width 300)
-
 (def post-height 200)
 
 (def post-margin 0.2)
@@ -57,7 +55,6 @@
 (defstyles post
   [:.post
    {:height (px post-height)
-    ;; :min-width (px post-min-width)
     :overflow "hidden"
     :display "inline-block"
     :position "relative"
