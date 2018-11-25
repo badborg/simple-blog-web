@@ -11,22 +11,31 @@
    [:.tag
     (->
       {:display "inline-block"
-       :font-size "0.9em"
-       :padding "0 1em"
-       :margin "1em"})
+       :font-size (em 0.9)
+       :padding-top 0
+       :padding-bottom 0
+       :padding-left (em 1)
+       :padding-right (em 1)
+       :margin (em 1)})
     [:a
      (colors/c-f)]]
    ])
 
 (defstyles title
   [:h1.post
-   {:font-size "1.2em"
+   {:font-size (em 1.2)
     :font-weight "normal"
-    :letter-spacing "0"
-    :line-height "1.3"
-    :padding "0.2em 0"
+    :letter-spacing 0
+    :line-height 1.3
+    :padding-top (em 0.2)
+    :padding-bottom (em 0.2)
+    :padding-left 0
+    :padding-right 0
     :position "absolute"
-    :margin "0.3em 0"
+    :margin-top (em 0.3)
+    :margin-bottom (em 0.3)
+    :margin-left 0
+    :margin-right 0
     }])
 
 (defstyles post
@@ -36,7 +45,7 @@
    tags
    [:.image
     [:img
-     {:width "100%"}]]
+     {:width (% 100)}]]
    ])
 
 (defstyles related
@@ -47,46 +56,60 @@
 (def post-media-ranges
   {[0 800] [:.post
             {:width (% 100)}]
-   [800 1200] [:.post
+   [800 1100] [:.post
                {:width (% 66.66)}]
-   [1200 nil] [:.post
-               {:width (% 50)}]
-   })
+   [1100 nil] [:.post
+               {:width (% 50)}]})
 
 (def content-media-ranges
-  {[0 450] [:.post
+  {[0 380] [:.post
             [:.content
-             {:max-width "300px"}]]
+             {:max-width (px 300)}]]
+   [380 450] [:.post
+              [:.content
+               {:max-width (px 350)}]]
    [450 550] [:.post
               [:.content
-               {:max-width "400px"}]]
+               {:max-width (px 400)}]]
    [550 650] [:.post
               [:.content
-               {:max-width "500px"}]]
+               {:max-width (px 500)}]]
    [650 800] [:.post
               [:.content
-               {:max-width "600px"}]]
-   [800 900] [:.post
-              [:.content
-               {:max-width "400px"}]]
-   [900 1050] [:.post
+               {:max-width (px 600)}]]
+   [800 1100] [:.post
                [:.content
-                {:max-width "500px"}]]
+                {:max-width (px 500)}]]
+   [1100 1200] [:.post
+                [:.content
+                 {:max-width (px 450)}]]
+   [1200 1300] [:.post
+                [:.content
+                 {:max-width (px 500)}]]
+   [1300 nil] [:.post
+               [:.content
+                {:max-width (px 600)}]]
    })
 
 (def font-media-ranges
-  {[0 400] (list
+  {[0 450] (list
              [:h1.post
-              {:font-size "1em"}]
+              {:font-size (em 1)}]
              [:.post
               [:.content
-               {:font-size "0.8em"}]
+               {:font-size (em 0.8)}]
               [:.tags
                [:.tag
-                {:font-size "0.8em"}]]])
-   [400 450] [:.post
-              [:.content
-               {:font-size "0.9em"}]]})
+                {:font-size (em 0.8)}]]])
+   [450 600] (list
+               [:h1.post
+                {:font-size (em 1.1)}]
+               [:.post
+                [:.content
+                 {:font-size (em 0.9)}]
+                [:.tags
+                 [:.tag
+                  {:font-size (em 0.9)}]]])})
 
 (defstyles main
   title
