@@ -66,9 +66,8 @@
     :margin-left "auto"
     :margin-right "auto"}
    [:img
-    {:width (% 140)
-     :to (px -10)
-     :left (px -10)
+    {:width (% 100)
+     :top (px -10)
      :border 0}]
    ]
   post-title
