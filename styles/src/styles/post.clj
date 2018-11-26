@@ -57,9 +57,12 @@
   {[0 800] [:.post
             {:width (% 100)}]
    [800 1100] [:.post
-               {:width (% 66.66)}]
+               {:width (% (->> (nth sideables/widths 2)
+                               (- 100)))}]
    [1100 nil] [:.post
-               {:width (% 50)}]})
+               {:width (% (->> (nth sideables/widths 3)
+                               (* 2)
+                               (- 100)))}]})
 
 (def content-media-ranges
   {[0 380] [:.post
