@@ -31,8 +31,7 @@
     :margin-top (em margin)
     :margin-bottom (em margin)
     :margin-left "auto"
-    :margin-right "auto"}
-   ]
+    :margin-right "auto"}]
   (build-media (sideables/media-ranges [:#ad2])))
 
 (defstyles group2
