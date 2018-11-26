@@ -1,0 +1,22 @@
+{:dev {:env {:port "3000"
+             :backend-url "http://localhost:3001/api"
+             :logo "/path/to/logo.png"
+             :custom-css "/path/to/custom.css"
+             ;; :ga-tracking-id ""
+             ;; :google-ad-client-id ""
+             ;; :global-ad-slot-id ""
+             ;; :ad1 ""
+             ;; :ad2 ""
+             ;; :ad3 ""
+             ;; :ad4 ""
+             ;; :ad5 ""
+             :name "Site Name"
+             :permalink-scheme "date"
+             :per-page "24"
+             :small-per-page "12"
+             ;; Test
+             :search-phrase "test"
+             :post-id "1"
+             :post-slug "test
+             :tag-name "test
+             }}}
