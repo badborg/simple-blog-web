@@ -1,72 +1,39 @@
 (ns server.views.ads
-  (:require [clojure.java.io :as io]
-            [environ.core :refer [env]])
+  (:require [environ.core :refer [env]]
+            [server.views.google :as google])
   (:import (java.time LocalDate)))
 
-(defn read-file
-  [f]
-  (when-let [file (io/file f)]
-    (when (.exists file)
-      (slurp file))))
-
-(def ad1-file
-  (some-> (env :ad1)
-          read-file))
-
-(def ad2-file
-  (some-> (env :ad2)
-          read-file))
-
-(def ad3-file
-  (some-> (env :ad3)
-          read-file))
-
-(def ad4-file
-  (some-> (env :ad4)
-          read-file))
-
-(def ad5-file
-  (some-> (env :ad5)
-          read-file))
+(defn get-ad-code
+  [ad-id]
+  (some-> (or (env ad-id)
+              (env :global-ad-slot-id))
+          google/ad-unit))
 
 (def notice
   [:div.notice
    "&ltcc;"])
 
-(defn ad1
-  []
-  (when ad1-file
-    [:div#ad1
+(defn get-ad
+  [ad-id]
+  (when-let [code (get-ad-code ad-id)]
+    [:div {:id (name ad-id)}
      notice
-     ad1-file]))
+     code]))
 
-(defn ad2
-  []
-  (when ad2-file
-    [:div#ad2
-     notice
-     ad2-file]))
+(def ad1
+  (partial get-ad :ad1))
 
-(defn ad3
-  []
-  (when ad3-file
-    [:div#ad3
-     notice
-     ad3-file]))
+(def ad2
+  (partial get-ad :ad2))
 
-(defn ad4
-  []
-  (when ad4-file
-    [:div#ad4
-     notice
-     ad4-file]))
+(def ad3
+  (partial get-ad :ad3))
 
-(defn ad5
-  []
-  (when ad5-file
-    [:div#ad5
-     notice
-     ad5-file]))
+(def ad4
+  (partial get-ad :ad4))
+
+(def ad5
+  (partial get-ad :ad5))
 
 (defn today-date
   []
