@@ -1,4 +1,4 @@
-(defproject styles "0.1.0-SNAPSHOT"
+(defproject styles "0.1.0"
   :description "Styles for simple blog web"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [garden "1.3.6"]]
