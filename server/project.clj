@@ -1,4 +1,4 @@
-(defproject server "0.1.0"
+(defproject simple-blog-web "0.1.0"
   :description "Web server for simple blog web"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [cheshire "5.8.0"]
