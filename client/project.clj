@@ -1,4 +1,4 @@
-(defproject client "0.1.0-SNAPSHOT"
+(defproject client "0.1.0"
   :description "Web client for simple blog web"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.10.339"]
