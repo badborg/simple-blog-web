@@ -9,7 +9,8 @@
             [server.css :as css]
             [server.logo :as logo]
             [server.permalink :as permalink]
-            [server.middleware.pagination :refer [wrap-pagination]]))
+            [server.middleware.pagination :refer [wrap-pagination]]
+            [server.views.not-found :as not-found]))
 
 (def default-per-page
   (some-> (env :per-page)
@@ -23,7 +24,7 @@
   (GET (css/path) [] (css/response)))
 
 (defroutes not-found
-  (route/not-found "Not found."))
+  (route/not-found (not-found/main)))
 
 (defroutes api
   (context "/api" []
