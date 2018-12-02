@@ -83,3 +83,6 @@
 
 (def notice
   (mergeable {:color "LightSkyBlue"}))
+
+(def not-found
+  (mergeable {:color "LightCoral"}))

@@ -6,6 +6,7 @@
             [styles.ads :as ads]
             [styles.base :as base]
             [styles.navigation :as navigation]
+            [styles.not-found :as not-found]
             [styles.post :as post]
             [styles.posts :as posts]
             [styles.quick-search :as quick-search]))
@@ -22,4 +23,5 @@
   ads/main
   posts/main
   post/main
+  not-found/main
   )
