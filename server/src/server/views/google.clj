@@ -44,12 +44,14 @@
     (str
       "<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>"
       "<ins class=\"adsbygoogle\""
-      "style=\"display:inline-block\""
+      "style=\"display:block\""
       "data-ad-client=\""
       google-ad-client-id
       "\""
       "data-ad-slot=\""
       ad-slot-id
-      "\">"
+      "\""
+      "data-ad-format=\"rectangle\""
+      ">"
       "</ins>"
       "<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>")))
