@@ -2,6 +2,7 @@
   (:require [environ.core :refer [env]]
             [hiccup.page :refer [html5]]
             [server.css :as css]
+            [server.views.google :as google]
             [server.logo :as logo]))
 
 (def site-name
@@ -35,7 +36,9 @@
              :href core-style}]
      (when (css/available?)
        [:link {:rel :stylesheet
-               :href (css/path)}])]
+               :href (css/path)}])
+     (google/auto-ads)
+     (google/analytics-tracking)]
     [:body
      [:div#navigation
       [:a#home {:href "/"}
