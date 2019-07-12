@@ -19,10 +19,10 @@
 
 (defroutes pages
   (GET "/" [] controllers/home)
-  (GET (permalink/post-path) [] controllers/post)
-  (GET (permalink/tag-path) [] controllers/tag)
   (GET (logo/path) [] (logo/response))
-  (GET (css/path) [] (css/response)))
+  (GET (css/path) [] (css/response))
+  (GET (permalink/tag-path) [] controllers/tag)
+  (GET (permalink/post-path) [] controllers/post))
 
 (defroutes not-found
   (route/not-found (not-found/main)))
