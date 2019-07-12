@@ -11,6 +11,8 @@
              ;; :ad4 ""
              ;; :ad5 ""
              :name "Site Name"
+             :hostname "domain.com"
+             :protocol "https"
              :permalink-scheme "date"
              :per-page "24"
              :small-per-page "12"
