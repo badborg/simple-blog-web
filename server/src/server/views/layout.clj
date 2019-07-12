@@ -8,6 +8,12 @@
 (def site-name
   (env :name))
 
+(def host-name
+  (env :hostname))
+
+(def protocol
+  (env :protocol))
+
 (def core-script
   (or (env :js-core)
       "/js/core.js?v=0.1.0"))
@@ -23,8 +29,13 @@
    [:input {:name "s"
             :type "text"}]])
 
+(defn absolute-url
+  [url]
+  (when (and url protocol host-name)
+    (str protocol "://" host-name url)))
+
 (defn main
-  [title class & content]
+  [{:keys [title class noindex canonical]} & content]
   (html5
     [:head
      [:title (or title
@@ -37,6 +48,12 @@
      (when (css/available?)
        [:link {:rel :stylesheet
                :href (css/path)}])
+     (when noindex
+       [:meta {:name "robots"
+               :content "noindex"}])
+     (when canonical
+       [:link {:rel "canonical"
+               :href (absolute-url canonical)}])
      (google/auto-ads)
      (google/analytics-tracking)]
     [:body

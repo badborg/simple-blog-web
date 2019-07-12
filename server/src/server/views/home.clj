@@ -2,7 +2,9 @@
   (:require [environ.core :refer [env]]
             [server.views.ads :as ads]
             [server.views.layout :as layout]
-            [server.views.pagination :refer [paginate]]
+            [server.views.pagination :refer [paginate
+                                             non-root-page?
+                                             index-url]]
             [server.views.posts :as posts]))
 
 (def default-per-page
@@ -12,10 +14,12 @@
 (defn main
   [posts page]
   (let [next? (-> (count posts)
-                  (>= default-per-page))]
+                  (>= default-per-page))
+        root? (not (non-root-page? page))]
     (layout/main
-      nil
-      nil
+      {:noindex (not root?)
+       :canonical (when root?
+                    (index-url "" nil))}
       (posts/posts-list posts
                         #(let [total (count %)]
                            (cond->> %

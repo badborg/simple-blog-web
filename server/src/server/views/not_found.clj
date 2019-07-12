@@ -7,6 +7,6 @@
 (defn main
   []
   (layout/main
-    "404"
-    nil
+    {:title "404"
+     :noindex true}
     [:div#not-found not-found-sym]))

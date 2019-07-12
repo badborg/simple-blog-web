@@ -55,9 +55,10 @@
        (ads/ad3))]))
 
 (defn main
-  [{:keys [id] :as post} r-posts]
+  [{:keys [id url] :as post} r-posts]
   (layout/main
-    (:title post)
-    (str "post " (color-class id))
+    {:title (:title post)
+     :class (str "post " (color-class id))
+     :canonical url}
     (post-details post)
     (related-posts id r-posts)))

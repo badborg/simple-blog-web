@@ -17,8 +17,9 @@
                   (>= default-per-page))
         search-phrase (escape-html (:s params))]
     (layout/main
-      (str "\"" search-phrase "\"")
-      "search"
+      {:title (str "\"" search-phrase "\"")
+       :class "search"
+       :noindex true}
       (posts/posts-list posts
                         #(let [total (count %)]
                            (cond->> %

@@ -2,11 +2,13 @@
   (:require [ring.util.codec :refer [form-encode]]))
 
 (defn index-url
-  [path page params]
-  (str path
-       "?"
-       (form-encode (assoc params
-                           :page page))))
+  ([path page]
+   (index-url path page {}))
+  ([path page params]
+   (let [query (cond-> params
+                 page (assoc :page page))]
+     (cond-> path
+       (not-empty query) (str "?" (form-encode query))))))
 
 (def prev-sym
   "&laquo;")
@@ -29,3 +31,7 @@
      (when next?
        [:a.next {:href (index-url path next params)}
         next-sym])]))
+
+(defn non-root-page?
+  [page]
+  (and page (> page 1)))

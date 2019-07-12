@@ -3,7 +3,9 @@
             [server.views.ads :as ads]
             [server.views.color-class :refer [color-class]]
             [server.views.layout :as layout]
-            [server.views.pagination :refer [paginate]]
+            [server.views.pagination :refer [paginate
+                                             non-root-page?
+                                             index-url]]
             [server.views.posts :as posts]))
 
 (def default-per-page
@@ -15,8 +17,11 @@
   (let [next? (-> (count posts)
                   (>= default-per-page))]
     (layout/main
-      (:name tag)
-      (str "tag " (color-class (:id tag)))
+      {:title (:name tag)
+       :class (str "tag " (color-class (:id tag)))
+       :canonical (index-url (:url tag)
+                             (when (non-root-page? page)
+                               page))}
       (posts/posts-list posts
                         #(let [total (count %)]
                            (cond->> %
