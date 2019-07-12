@@ -1,10 +1,10 @@
 (ns server.views.home
   (:require [environ.core :refer [env]]
+            [server.permalink :refer [non-root-page?
+                                      paginated-url]]
             [server.views.ads :as ads]
             [server.views.layout :as layout]
-            [server.views.pagination :refer [paginate
-                                             non-root-page?
-                                             index-url]]
+            [server.views.pagination :refer [paginate]]
             [server.views.posts :as posts]))
 
 (def default-per-page
@@ -19,7 +19,7 @@
     (layout/main
       {:noindex (not root?)
        :canonical (when root?
-                    (index-url "" nil))}
+                    (paginated-url "/" nil))}
       (posts/posts-list posts
                         #(let [total (count %)]
                            (cond->> %

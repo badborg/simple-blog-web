@@ -9,6 +9,7 @@
             [server.css :as css]
             [server.logo :as logo]
             [server.permalink :as permalink]
+            [server.middleware.canonical :refer [wrap-canonical]]
             [server.middleware.pagination :refer [wrap-pagination]]
             [server.views.not-found :as not-found]))
 
@@ -19,7 +20,7 @@
 (defroutes pages
   (GET "/" [] controllers/home)
   (GET (permalink/post-path) [] controllers/post)
-  (GET "/tag/:id/" [] controllers/tag)
+  (GET (permalink/tag-path) [] controllers/tag)
   (GET (logo/path) [] (logo/response))
   (GET (css/path) [] (css/response)))
 
@@ -43,6 +44,7 @@
   [h]
   (-> h
       (wrap-pagination {:per-page default-per-page})
+      wrap-canonical
       (wrap-defaults (merge site-defaults
                             wrap-defaults-options))
       wrap-json-response

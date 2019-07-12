@@ -1,14 +1,5 @@
 (ns server.views.pagination
-  (:require [ring.util.codec :refer [form-encode]]))
-
-(defn index-url
-  ([path page]
-   (index-url path page {}))
-  ([path page params]
-   (let [query (cond-> params
-                 page (assoc :page page))]
-     (cond-> path
-       (not-empty query) (str "?" (form-encode query))))))
+  (:require [server.permalink :refer [paginated-url]]))
 
 (def prev-sym
   "&laquo;")
@@ -26,12 +17,8 @@
         prev? (not (= page prev))]
     [:div#paginate
      (when prev?
-       [:a.prev {:href (index-url path prev params)}
+       [:a.prev {:href (paginated-url path prev params)}
         prev-sym])
      (when next?
-       [:a.next {:href (index-url path next params)}
+       [:a.next {:href (paginated-url path next params)}
         next-sym])]))
-
-(defn non-root-page?
-  [page]
-  (and page (> page 1)))
