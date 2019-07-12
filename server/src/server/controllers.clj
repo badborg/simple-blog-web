@@ -37,11 +37,11 @@
                  "date" (integer-id? id)
                  (not (integer-id? id)))]
     (when id-ok?
-      (let [post (-> (backend/post req)
-                     (get-in [:body :post]))
-            related-posts (-> (backend/related-posts req)
-                              (get-in [:body :posts]))]
-        (post/main post related-posts)))))
+      (when-let [post (-> (backend/post req)
+                          (get-in [:body :post]))]
+        (let [related-posts (-> (backend/related-posts req)
+                                (get-in [:body :posts]))]
+             (post/main post related-posts))))))
 
 (defn tag
   [{:keys [params] :as req}]
