@@ -18,8 +18,9 @@
       (let [{:keys [results terms]} (-> (backend/search req)
                                         :body)]
         (search/main terms results page (select-keys params [:s])))
-      (let [posts (-> (backend/posts req)
-                      (get-in [:body :posts]))]
+      (when-let [posts (-> (backend/posts req)
+                           (get-in [:body :posts])
+                           not-empty)]
         (home/main posts page)))))
 
 (defn integer-id?
@@ -49,9 +50,9 @@
                    integer-id?
                    not)]
     (when id-ok?
-      (let [page (:page params)
-            tag (-> (backend/tag req)
-                    (get-in [:body :tag]))
-            posts (-> (backend/tag-posts req)
-                      (get-in [:body :posts]))]
-        (tag/main tag posts page)))))
+      (when-let [tag (-> (backend/tag req)
+                         (get-in [:body :tag]))]
+        (when-let [posts (-> (backend/tag-posts req)
+                             (get-in [:body :posts])
+                             not-empty)]
+          (tag/main tag posts (:page params)))))))
