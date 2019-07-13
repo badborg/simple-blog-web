@@ -36,8 +36,12 @@
 (def available?
   logo-content)
 
+(def hours->secs
+  (partial * 3600))
+
 (defn response
   []
   (when-let [content (logo-content)]
-    {:headers {"Content-Type" (content-type)}
+    {:headers {"Content-Type" (content-type)
+               "Cache-Control" (str "max-age=" (hours->secs 24))}
      :body content}))
