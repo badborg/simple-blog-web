@@ -27,4 +27,4 @@
    [:a {:href url}
     [:img {:class lazy-class-name
            :data-src image_url
-           :src "/blank.svg"}]]])
+           :src "/blank.svg?v=0.1.0"}]]])
