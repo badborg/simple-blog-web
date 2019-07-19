@@ -16,7 +16,9 @@
     [:a {:href url}
      title]]
    [:a {:href url}
-    [:img {:src image_url}]]])
+    [:img {:data-src image_url
+           :src "/blank.svg"
+           :class "lazy"}]]])
 
 (defn posts-list
   ([posts]

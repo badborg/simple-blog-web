@@ -5,6 +5,7 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-params]]
             [server.backend :as backend]
+            [server.blank-img :as blank-img]
             [server.controllers :as controllers]
             [server.css :as css]
             [server.logo :as logo]
@@ -21,6 +22,7 @@
   (GET "/" [] controllers/home)
   (GET (logo/path) [] (logo/response))
   (GET (css/path) [] (css/response))
+  (GET (blank-img/path) [] (blank-img/response))
   (GET (permalink/tag-path) [] controllers/tag)
   (GET (permalink/post-path) [] controllers/post))
 
