@@ -12,6 +12,7 @@
             [server.permalink :as permalink]
             [server.middleware.canonical :refer [wrap-canonical]]
             [server.middleware.pagination :refer [wrap-pagination]]
+            [server.middleware.resources :refer [wrap-resources]]
             [server.views.not-found :as not-found]))
 
 (def default-per-page
@@ -49,6 +50,7 @@
       wrap-canonical
       (wrap-defaults (merge site-defaults
                             wrap-defaults-options))
+      wrap-resources
       wrap-json-response
       wrap-json-params))
 

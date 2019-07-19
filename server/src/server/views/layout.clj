@@ -3,7 +3,8 @@
             [hiccup.page :refer [html5]]
             [server.css :as css]
             [server.views.google :as google]
-            [server.logo :as logo]))
+            [server.logo :as logo]
+            [server.resources :as resources]))
 
 (def site-name
   (env :name))
@@ -13,14 +14,6 @@
 
 (def protocol
   (env :protocol))
-
-(def core-script
-  (or (env :js-core)
-      "/js/core.js?v=0.2.1"))
-
-(def core-style
-  (or (env :css-core)
-      "/s/core.css?v=0.1.0"))
 
 (defn search-form
   []
@@ -44,7 +37,7 @@
      [:meta {:name "viewport"
              :content "width=device-width, initial-scale=1"}]
      [:link {:rel :stylesheet
-             :href core-style}]
+             :href (resources/core-style-path-version)}]
      (when (css/available?)
        [:link {:rel :stylesheet
                :href (css/path-version)}])
@@ -68,5 +61,5 @@
        [:h1 {:class class}
         title])
      content
-     [:script {:src core-script
+     [:script {:src (resources/core-script-path-version)
                :defer "defer"}]]))
