@@ -40,15 +40,18 @@
                 (>= (+ (.-left rect) (.-width rect))
                     0))))))
 
+(defn add-listener
+  [listener]
+  (doseq [event ["scroll" "orientationchange" "resize"]]
+    (.addEventListener js/window event listener)))
+
 (defn on-scrolled-bottom
   [callback]
   (let [done? (atom false)]
-    (-> js/window
-        (.addEventListener "scroll"
-                           (fn [_]
-                             (when (and (scrolled-bottom?)
-                                        (not @done?))
-                               (go (callback)
-                                   (<! (timeout 100))
-                                   (reset! done? false))
-                               (reset! done? true)))))))
+    (add-listener (fn [_]
+                    (when (and (scrolled-bottom?)
+                               (not @done?))
+                      (go (callback)
+                          (<! (timeout 100))
+                          (reset! done? false))
+                      (reset! done? true))))))

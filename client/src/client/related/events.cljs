@@ -47,6 +47,11 @@
         (recur updated-data)))
     out))
 
+(defn add-listener
+  [listener]
+  (doseq [event ["scroll" "orientationchange" "resize"]]
+    (.addEventListener js/window event listener)))
+
 (defn events
   [el id]
   (when id
@@ -65,22 +70,21 @@
                                  (dom/getElementByClass "posts")
                                  dom/getLastElementChild))
           last-el (atom (find-last-el))
-          scroll-count (atom 0)]
+          scroll-count (atom 0)
+          handler (fn []
+                    (when (and (not @done?)
+                               (scrolled-to? @last-el)
+                               (<= @scroll-count
+                                   10))
+                      (go (>! in {:scroll true})
+                          (<! (timeout 100))
+                          (reset! done? false))
+                      (reset! last-el nil)
+                      (swap! scroll-count inc)
+                      (reset! done? true)))]
       (cstate/sync-related out)
       (add-watch state :state-watcher
                  (fn [_ _ _ updated-state]
                    (reset! last-el (find-last-el))))
-      (-> js/window
-          (.addEventListener "scroll"
-                             (fn []
-                               (when (and (not @done?)
-                                          (scrolled-to? @last-el)
-                                          (<= @scroll-count
-                                              10))
-                                 (go (>! in {:scroll true})
-                                     (<! (timeout 100))
-                                     (reset! done? false))
-                                 (reset! last-el nil)
-                                 (swap! scroll-count inc)
-                                 (reset! done? true)))))
+      (add-listener handler)
       {:state state})))
