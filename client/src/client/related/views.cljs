@@ -5,7 +5,7 @@
 (defn reactive-posts-data
   [state]
   {:posts (some-> state
-                  (rum/cursor-in [:related :posts])
+                  (rum/cursor :posts)
                   rum/react)})
 
 (rum/defc main < rum/reactive

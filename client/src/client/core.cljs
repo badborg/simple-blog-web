@@ -1,5 +1,6 @@
 (ns client.core
-  (:require [client.pagination :as pagination]
+  (:require [client.img-load :as img-load]
+            [client.pagination :as pagination]
             [client.related :as related]
             [client.search :as search]))
 
@@ -11,6 +12,7 @@
 
 (defn init
   [e]
+  (img-load/init)
   (pagination/init)
   (search/init)
   (related/init))

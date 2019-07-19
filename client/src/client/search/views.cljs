@@ -29,10 +29,10 @@
 (defn reactive-search-results
   [state]
   (let [posts (-> state
-                  (rum/cursor-in [:search :posts])
+                  (rum/cursor :posts)
                   rum/react)
         search (-> state
-                   (rum/cursor-in [:search :search])
+                   (rum/cursor :search)
                    rum/react)
         total (count posts)]
     {:posts posts

@@ -6,10 +6,10 @@
 (defn reactive-posts-data
   [state]
   {:posts (some-> state
-                  (rum/cursor-in [:pagination :posts])
+                  (rum/cursor :posts)
                   rum/react)
    :waiting? (some-> state
-                     (rum/cursor-in [:pagination :waiting?])
+                     (rum/cursor :waiting?)
                      rum/react)})
 
 (def loading-sym

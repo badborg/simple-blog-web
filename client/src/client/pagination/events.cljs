@@ -124,7 +124,7 @@
   (when next-page-uri
     (let [{:keys [path params]} (extract-uri next-page-uri sanitize-params)
           api-name (find-api-name path params)
-          state (cstate/create)
+          state cstate/pagination
           in (chan)
           retrieve (case api-name
                      :index index-posts
@@ -135,10 +135,10 @@
                    (build-params params)
                    retrieve
                    results)]
-      (cstate/sync-pagination out state)
+      (cstate/sync-pagination out)
       (on-scrolled-bottom
         (fn []
-          (when (posts-scrollable? (cstate/get-pagination state))
-            (cstate/update-pagination state set-posts-waiting)
+          (when (posts-scrollable? @state)
+            (cstate/update-pagination set-posts-waiting)
             (go (>! in {:scroll true})))))
       {:state state})))

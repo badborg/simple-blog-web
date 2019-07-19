@@ -14,6 +14,9 @@
               0)]
     (str "c-" n)))
 
+(def lazy-class-name
+  "lazy")
+
 (defn post-item
   [{:keys [title slug image_url url id] :as post}]
   [:div.post
@@ -22,4 +25,6 @@
     [:a {:href url}
      title]]
    [:a {:href url}
-    [:img {:src image_url}]]])
+    [:img {:class lazy-class-name
+           :data-src image_url
+           :src "/blank.svg"}]]])

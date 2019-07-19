@@ -39,13 +39,13 @@
 
 (defn events
   []
-  (let [state (cstate/create)
+  (let [state cstate/search
         in (chan)
         out (-> in
                 build-params
                 search-posts
                 results)]
-    (cstate/sync-search out state)
+    (cstate/sync-search out)
     (add-watch state :results-watcher
                #(.scrollTo js/window 0 0))
     {:state state

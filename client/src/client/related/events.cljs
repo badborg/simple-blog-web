@@ -51,7 +51,7 @@
   [el id]
   (when id
     (let [in (chan)
-          state (cstate/create)
+          state cstate/related
           out (->> in
                    (build-params state)
                    (related-posts id)
@@ -66,7 +66,7 @@
                                  dom/getLastElementChild))
           last-el (atom (find-last-el))
           scroll-count (atom 0)]
-      (cstate/sync-related out state)
+      (cstate/sync-related out)
       (add-watch state :state-watcher
                  (fn [_ _ _ updated-state]
                    (reset! last-el (find-last-el))))
