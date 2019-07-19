@@ -2,17 +2,19 @@
   (:require [server.views.ads :as ads]
             [server.views.color-class :refer [color-class]]
             [server.views.layout :as layout]
+            [server.views.lazy-load-img :refer [lazy-load-img]]
             [server.views.posts :as posts]))
 
 (defn post-album
-  [images]
+  [title images]
   (let [img-urls (map :url images)
         sorted-urls (concat (rest img-urls)
                             [(first img-urls)])]
     [:div.images
-     (for [img sorted-urls]
+     (for [[idx img] (zipmap (range) sorted-urls)
+           :let [alt (str title " " idx)]]
        [:div.image
-        [:img {:src img}]])]))
+        (lazy-load-img img {:alt alt})])]))
 
 (defn post-tags
   [tags]
@@ -40,14 +42,15 @@
   (let [ad? (ads/insert-ad? id)]
     [:div.post
      [:div.image
-      [:img {:src image_url}]]
+      [:img {:src image_url
+             :alt title}]]
      (when ad?
        (ads/ad1))
      [:div.content
       content]
      (when-not ad?
        (ads/ad1))
-     (post-album images)
+     (post-album title images)
      (when ad?
        (ads/ad3))
      (post-tags tags)

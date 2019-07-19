@@ -1,6 +1,7 @@
 (ns server.views.posts
   (:require [clojure.string :as s]
-            [server.views.color-class :refer [color-class]]))
+            [server.views.color-class :refer [color-class]]
+            [server.views.lazy-load-img :refer [lazy-load-img]]))
 
 (defn thumb_url
   [image_url]
@@ -16,9 +17,7 @@
     [:a {:href url}
      title]]
    [:a {:href url}
-    [:img {:data-src image_url
-           :src "/blank.svg"
-           :class "lazy"}]]])
+    (lazy-load-img image_url)]])
 
 (defn posts-list
   ([posts]
