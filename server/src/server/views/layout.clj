@@ -16,7 +16,7 @@
 
 (def core-script
   (or (env :js-core)
-      "/js/core.js?v=0.1.0"))
+      "/js/core.js?v=0.2.1"))
 
 (def core-style
   (or (env :css-core)
@@ -47,7 +47,7 @@
              :href core-style}]
      (when (css/available?)
        [:link {:rel :stylesheet
-               :href (css/path)}])
+               :href (css/path-version)}])
      (when noindex
        [:meta {:name "robots"
                :content "noindex"}])
@@ -60,7 +60,7 @@
      [:div#navigation
       [:a#home {:href "/"}
        (if (logo/available?)
-         [:img {:src "/logo.png"}]
+         [:img {:src (logo/path-version)}]
          site-name)]
       (search-form)]
      [:div#quick-results]

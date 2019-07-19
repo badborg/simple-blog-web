@@ -1,9 +1,16 @@
 (ns server.blank-img
   (:require [hiccup.core :refer [html]]))
 
+(def version
+  "0.1.0")
+
 (defn path
   []
   "/blank.svg")
+
+(defn path-version
+  []
+  (str (path) "?v=" version))
 
 (defn content-type
   []

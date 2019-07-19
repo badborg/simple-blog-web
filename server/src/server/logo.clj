@@ -2,6 +2,9 @@
   (:require [clojure.java.io :as io]
             [environ.core :refer [env]]))
 
+(def version
+  "0.1.0")
+
 (def logo-file
   (env :logo))
 
@@ -18,6 +21,10 @@
   (let [ext (logo-ext)]
     (cond-> "/logo"
       ext (str "." ext))))
+
+(defn path-version
+  []
+  (str (path) "?v=" version))
 
 (defn content-type
   []
@@ -43,5 +50,5 @@
   []
   (when-let [content (logo-content)]
     {:headers {"Content-Type" (content-type)
-               "Cache-Control" (str "max-age=" (hours->secs 24))}
+               "Cache-Control" (str "max-age=" (hours->secs 2400))}
      :body content}))
