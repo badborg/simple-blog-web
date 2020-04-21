@@ -2,7 +2,6 @@
   (:require [clojure.string :as s]
             [environ.core :refer [env]]
             [hiccup.util :refer [escape-html]]
-            [server.views.ads :as ads]
             [server.views.layout :as layout]
             [server.views.pagination :refer [paginate]]
             [server.views.posts :as posts]))
@@ -20,11 +19,5 @@
       {:title (str "\"" search-phrase "\"")
        :class "search"
        :noindex true}
-      (posts/posts-list posts
-                        #(let [total (count %)]
-                           (cond->> %
-                             (> total 12) (ads/insert-at 12
-                                                         (ads/ad4))
-                             (> total 23) (ads/insert-at 23
-                                                         (ads/ad5)))))
+      (posts/posts-list posts)
       (paginate "/" page :next? next? :params params))))
