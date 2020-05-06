@@ -95,7 +95,8 @@
                :tags
                :images
                :image_url
-               :url}
+               :url
+               :structured-data}
              (-> post
                  keys
                  set)))
