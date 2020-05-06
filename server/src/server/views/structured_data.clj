@@ -5,7 +5,8 @@
 (defn image
   [url]
   (when url
-    {"image" url}))
+    {"image" {"@type" "ImageObject"
+              "url" url}}))
 
 (defn how-to?
   [type]
