@@ -28,7 +28,7 @@
     (str protocol "://" host-name url)))
 
 (defn main
-  [{:keys [title class noindex canonical]} & content]
+  [{:keys [title class noindex canonical structured-data]} & content]
   (html5
     [:head
      [:title (or title
@@ -47,6 +47,8 @@
      (when canonical
        [:link {:rel "canonical"
                :href (absolute-url canonical)}])
+     (when structured-data
+       structured-data)
      (google/auto-ads)
      (google/analytics-tracking)]
     [:body

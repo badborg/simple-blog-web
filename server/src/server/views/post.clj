@@ -3,7 +3,8 @@
             [server.views.color-class :refer [color-class]]
             [server.views.layout :as layout]
             [server.views.lazy-load-img :refer [lazy-load-img]]
-            [server.views.posts :as posts]))
+            [server.views.posts :as posts]
+            [server.views.structured-data :refer [json-ld]]))
 
 (defn post-album
   [title images]
@@ -62,6 +63,7 @@
   (layout/main
     {:title (:title post)
      :class (str "post " (color-class id))
-     :canonical url}
+     :canonical url
+     :structured-data (json-ld post)}
     (post-details post)
     (related-posts id r-posts)))
