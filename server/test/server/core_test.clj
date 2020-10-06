@@ -19,9 +19,9 @@
 (defn get-posts
   ([]
    (get-posts nil))
-  ([query-string]
+  ([params]
    (cond-> (mock/request :get "/api/posts")
-     query-string (mock/query-string query-string)
+     params (mock/query-string params)
      true (-> handler read-json-body :posts))))
 
 (deftest api-get-posts
