@@ -52,25 +52,24 @@
 
 (deftest api-search
   (let [phrase (:search-phrase test-data)
-        res-data (atom {})]
-    (testing "API search posts")
-    (let [{:keys [terms results]} (search-posts {:s phrase})]
-      (is (sequential? terms))
-      (is (sequential? results))
-      (is (= #{:id
-               :title
-               :image_url
-               :url}
-             (->> results
-                  (mapcat keys)
-                  set)))
-      (swap! res-data assoc :last-id (-> results last :id)))
-    (testing "API search pagination")
-    (let [results (-> (search-posts {:s phrase
-                                     :page 2})
-                      :results)]
-      (is (> (:last-id @res-data)
-             (-> results first :id))))))
+        {:keys [terms results]} (search-posts {:s phrase})]
+    (is (sequential? terms))
+    (is (sequential? results))
+    (is (= #{:id
+             :title
+             :image_url
+             :url}
+           (->> results
+                (mapcat keys)
+                set)))))
+
+(deftest api-search-pagination
+  (let [phrase (:search-phrase test-data)
+        page-1-results (:results (search-posts {:s phrase}))
+        page-2-results (:results (search-posts {:s phrase
+                                                :page 2}))]
+    (is (> (-> page-1-results last :id)
+           (-> page-2-results first :id)))))
 
 (deftest api-get-post
   (let [post-req #(mock/request :get (str "/api/posts/" %))]
