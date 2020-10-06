@@ -16,12 +16,18 @@
     (catch com.fasterxml.jackson.core.JsonParseException _
       nil)))
 
+(defn posts-req
+  ([]
+   (posts-req nil))
+  ([query-string]
+   (cond-> (mock/request :get "/api/posts")
+     query-string (mock/query-string query-string))))
+
 (deftest api-get-posts
-  (let [posts-req (mock/request :get "/api/posts")
-        get-posts #(-> % read-json-body :posts)
+  (let [get-posts #(-> % read-json-body :posts)
         res-data (atom {})]
     (testing "API Posts")
-    (let [res (-> posts-req
+    (let [res (-> (posts-req)
                   handler)
           posts (get-posts res)]
       (is (sequential? posts))
@@ -36,15 +42,13 @@
                    keys
                    set)))))
     (testing "API Posts pagination")
-    (let [posts (-> posts-req
-                    (mock/query-string {:page 2})
+    (let [posts (-> (posts-req {:page 2})
                     handler
                     get-posts)]
       (is (< (-> posts first :id)
              (-> @res-data :last-id))))
     (testing "API Posts invalid page")
-    (let [posts (-> posts-req
-                    (mock/query-string {:page "a"})
+    (let [posts (-> (posts-req {:page "a"})
                     handler
                     get-posts)]
       (is (sequential? posts)))))
