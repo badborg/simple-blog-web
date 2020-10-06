@@ -44,15 +44,17 @@
   (let [posts (get-posts {:page "a"})]
     (is (sequential? posts))))
 
+(defn search-posts
+  [params]
+  (cond-> (mock/request :get "/api/search")
+    params (mock/query-string params)
+    true (-> handler read-json-body)))
+
 (deftest api-search
-  (let [search-req (mock/request :get "/api/search")
-        phrase (:search-phrase test-data)
+  (let [phrase (:search-phrase test-data)
         res-data (atom {})]
     (testing "API search posts")
-    (let [res (-> search-req
-                  (mock/query-string {:s phrase})
-                  handler)
-          {:keys [terms results]} (read-json-body res)]
+    (let [{:keys [terms results]} (search-posts {:s phrase})]
       (is (sequential? terms))
       (is (sequential? results))
       (is (= #{:id
@@ -64,11 +66,8 @@
                   set)))
       (swap! res-data assoc :last-id (-> results last :id)))
     (testing "API search pagination")
-    (let [results (-> search-req
-                      (mock/query-string {:s phrase
-                                          :page 2})
-                      handler
-                      read-json-body
+    (let [results (-> (search-posts {:s phrase
+                                     :page 2})
                       :results)]
       (is (> (:last-id @res-data)
              (-> results first :id))))))
