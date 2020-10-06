@@ -25,27 +25,24 @@
      true (-> handler read-json-body :posts))))
 
 (deftest api-get-posts
-  (let [res-data (atom {})]
-    (testing "API Posts")
-    (let [posts (get-posts)]
-      (is (sequential? posts))
-      (swap! res-data assoc :last-id (-> posts last :id))
-      (testing "API Posts Item")
-      (let [post (first posts)]
-        (is (= #{:id
-                 :title
-                 :image_url
-                 :url}
-               (-> post
-                   keys
-                   set)))))
-    (testing "API Posts pagination")
-    (let [posts (get-posts {:page 2})]
-      (is (< (-> posts first :id)
-             (-> @res-data :last-id))))
-    (testing "API Posts invalid page")
-    (let [posts (get-posts {:page "a"})]
-      (is (sequential? posts)))))
+  (let [posts (get-posts)
+        post (first posts)]
+    (is (sequential? posts))
+    (is (= #{:id
+             :title
+             :image_url
+             :url}
+           (-> post keys set)))))
+
+(deftest api-get-posts-pagination
+  (let [page-1-posts (get-posts)
+        page-2-posts (get-posts {:page 2})]
+    (is (> (-> page-1-posts last :id)
+           (-> page-2-posts first :id)))))
+
+(deftest api-get-posts-invalid-page
+  (let [posts (get-posts {:page "a"})]
+    (is (sequential? posts))))
 
 (deftest api-search
   (let [search-req (mock/request :get "/api/search")
