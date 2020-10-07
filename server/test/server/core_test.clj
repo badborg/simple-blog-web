@@ -71,41 +71,40 @@
     (is (> (-> page-1-results last :id)
            (-> page-2-results first :id)))))
 
+(defn get-post
+  [id]
+  (-> (mock/request :get (str "/api/posts/" id))
+      handler
+      read-json-body
+      :post))
+
 (deftest api-get-post
-  (let [post-req #(mock/request :get (str "/api/posts/" %))]
-    (testing "API get post from id")
-    (let [post (-> (post-req (:post-id test-data))
-                   handler
-                   read-json-body
-                   :post)]
-      (is post)
-      (is (-> (:images post)
-              count
-              (> 0)))
-      (is (= #{:id
-               :title
-               :content
-               :tags
-               :images
-               :image_url
-               :url
-               :structured-data}
-             (-> post
-                 keys
-                 set)))
-      (is (= #{:id
-               :name
-               :url}
-             (->> (:tags post)
-                  (mapcat keys)
-                  set))))
-    (testing "API get post from slug")
-    (let [slug (:post-slug test-data)
-          post (-> (post-req slug)
-                   handler
-                   read-json-body
-                   :post)]
-      (is post))))
+  (testing "API get post from id")
+  (let [post (get-post (:post-id test-data))]
+    (is post)
+    (is (-> (:images post)
+            count
+            (> 0)))
+    (is (= #{:id
+             :title
+             :content
+             :tags
+             :images
+             :image_url
+             :url
+             :structured-data}
+           (-> post
+               keys
+               set)))
+    (is (= #{:id
+             :name
+             :url}
+           (->> (:tags post)
+                (mapcat keys)
+                set))))
+  (testing "API get post from slug")
+  (let [post (get-post (:post-slug test-data))]
+    (is post)))
 
 (deftest api-get-tag
   (let [tag (-> (mock/request :get (str "/api/tags/" (:tag-name test-data)))
