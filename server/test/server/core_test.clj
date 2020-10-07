@@ -127,18 +127,17 @@
      true (-> handler read-json-body :posts))))
 
 (deftest api-get-tag-posts
-  (let [res-data (atom {})
-        ids-set #(->> % (map :id) set)]
-    (testing "API get tag posts")
-    (let [posts (get-tag-posts (:tag-name test-data))]
-      (is (sequential? posts))
-      (swap! res-data assoc :ids (ids-set posts)))
-    (testing "API get tag posts pagination")
-    (let [posts (get-tag-posts (:tag-name test-data)
-                               {:page 2})]
-      (is (-> (ids-set posts)
-              (intersection (:id res-data))
-              empty?)))))
+  (let [posts (get-tag-posts (:tag-name test-data))]
+    (is (sequential? posts))))
+
+(deftest api-get-tag-posts-pagination
+  (let [tag-name (:tag-name test-data)
+        page-1-posts (get-tag-posts tag-name)
+        page-2-posts (get-tag-posts tag-name
+                                    {:page 2})]
+      (is (empty?
+            (intersection (set (map :id page-1-posts))
+                          (set (map :id page-2-posts)))))))
 
 (deftest api-get-related-posts
   (let [rp-req (mock/request :get (str "/api/posts/" (:post-id test-data) "/related"))]
