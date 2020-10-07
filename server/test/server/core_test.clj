@@ -148,11 +148,11 @@
      true (-> handler read-json-body :posts))))
 
 (deftest api-get-related-posts
-  (testing "API get related posts")
   (let [posts (get-related-posts (:post-id test-data))]
     (is (sequential? posts))
-    (is (= 12 (count posts))))
-  (testing "API get related posts with excluded ids")
+    (is (= 12 (count posts)))))
+
+(deftest api-get-related-posts-with-excluded-ids
   (let [post-id (:post-id test-data)
         posts (get-related-posts post-id
                                  {:excluded (str "1," post-id)})]
