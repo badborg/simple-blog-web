@@ -79,11 +79,9 @@
       :post))
 
 (deftest api-get-post
-  (testing "API get post from id")
   (let [post (get-post (:post-id test-data))]
     (is post)
-    (is (-> (:images post)
-            count
+    (is (-> (count (:images post))
             (> 0)))
     (is (= #{:id
              :title
@@ -101,8 +99,9 @@
              :url}
            (->> (:tags post)
                 (mapcat keys)
-                set))))
-  (testing "API get post from slug")
+                set)))))
+
+(deftest api-get-post-by-slug
   (let [post (get-post (:post-slug test-data))]
     (is post)))
 
