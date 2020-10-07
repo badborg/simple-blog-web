@@ -139,22 +139,24 @@
             (intersection (set (map :id page-1-posts))
                           (set (map :id page-2-posts)))))))
 
+(defn get-related-posts
+  ([id]
+   (get-related-posts id nil))
+  ([id query-string]
+   (cond-> (mock/request :get (str "/api/posts/" id "/related"))
+     query-string (mock/query-string query-string)
+     true (-> handler read-json-body :posts))))
+
 (deftest api-get-related-posts
-  (let [rp-req (mock/request :get (str "/api/posts/" (:post-id test-data) "/related"))]
-    (testing "API get related posts")
-    (let [posts (-> rp-req
-                  handler
-                  read-json-body
-                  :posts)]
-      (is (sequential? posts))
-      (is (= 12 (count posts))))
-    (testing "API get related posts with excluded ids")
-    (let [posts (-> rp-req
-                    (mock/query-string {:excluded (str "1," (:post-id test-data))})
-                    handler
-                    read-json-body
-                    :posts)]
-      (is (= 12 (count posts)))
-      (is (->> posts
-               (map :id)
-               (not-any? #{1 (:post-id test-data)}))))))
+  (testing "API get related posts")
+  (let [posts (get-related-posts (:post-id test-data))]
+    (is (sequential? posts))
+    (is (= 12 (count posts))))
+  (testing "API get related posts with excluded ids")
+  (let [post-id (:post-id test-data)
+        posts (get-related-posts post-id
+                                 {:excluded (str "1," post-id)})]
+    (is (= 12 (count posts)))
+    (is (->> posts
+             (map :id)
+             (not-any? #{1 post-id})))))
