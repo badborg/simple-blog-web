@@ -118,23 +118,24 @@
                keys
                set)))))
 
+(defn get-tag-posts
+  ([tag-name]
+   (get-tag-posts tag-name nil))
+  ([tag-name query-string]
+   (cond-> (mock/request :get (str "/api/tags/" tag-name "/posts"))
+     query-string (mock/query-string query-string)
+     true (-> handler read-json-body :posts))))
+
 (deftest api-get-tag-posts
-  (let [tag-posts-req (mock/request :get (str "/api/tags/" (:tag-name test-data) "/posts"))
-        res-data (atom {})
+  (let [res-data (atom {})
         ids-set #(->> % (map :id) set)]
     (testing "API get tag posts")
-    (let [posts (-> tag-posts-req
-                    handler
-                    read-json-body
-                    :posts)]
+    (let [posts (get-tag-posts (:tag-name test-data))]
       (is (sequential? posts))
       (swap! res-data assoc :ids (ids-set posts)))
     (testing "API get tag posts pagination")
-    (let [posts (-> tag-posts-req
-                    (mock/query-string {:page 2})
-                    handler
-                    read-json-body
-                    :posts)]
+    (let [posts (get-tag-posts (:tag-name test-data)
+                               {:page 2})]
       (is (-> (ids-set posts)
               (intersection (:id res-data))
               empty?)))))
